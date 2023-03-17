@@ -1,0 +1,23 @@
+[package]
+name = "markdown-cli"
+version = "0.1.0"
+edition = "2021"
+author = "adam@riizade.com"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies.serde]
+version = "1.0.156"
+
+[dependencies.markdown]
+version = "1.0.0-alpha.7"
+
+[dependencies.clap]
+version = "4.1.9"
+features = ["derive"]
+
+[dependencies.clap_complete]
+version = "4.1.5"
+
+[dependencies.unstructured]
+version = "0.5.1"

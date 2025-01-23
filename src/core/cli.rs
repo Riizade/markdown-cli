@@ -5,7 +5,7 @@ use std::path::Path;
 use clap::Parser;
 
 #[derive(Parser, Debug)]
-#[command(about = "CLI for generating HTML or PDFs from Markdown files")]
+#[command(about = "CLI for generating HTML from Markdown files")]
 #[command(author, version, long_about = None)]
 struct Args {
     /// the markdown file used as input
@@ -21,7 +21,7 @@ struct Args {
     css: Option<String>,
 
     /// propagates embedded HTML to the output without escaping it; do NOT use this for untrusted input
-    #[arg(short, long)]
+    #[arg(short, long, default_value_t = false, default_missing_value = "true")]
     allow_embedded_html: bool,
 }
 

@@ -1,7 +1,11 @@
 name: Release
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
+      repo_token:
+        description: "A personal access token with write permissions to the releases for this repo"
+        type: "string"
+        required: true
       version:
         description: "Version to bump to (e.g. 0.1.0)"
         type: "string"
@@ -34,7 +38,7 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+          GITHUB_TOKEN: ${{ inputs.repo_token }}
         with:
           tag_name: ${{ inputs.version }}
           release_name: Release ${{ inputs.version }}
@@ -44,7 +48,7 @@ jobs:
         id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+          GITHUB_TOKEN: ${{ inputs.repo_token }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
           asset_path: ./markdown-cli.zip

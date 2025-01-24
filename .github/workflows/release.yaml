@@ -55,7 +55,7 @@ jobs:
           prerelease: ${{ inputs.prerelease }}
           artifacts: markdown-cli.zip
           artifactContentType: application/zip
-          tag_name: ${{ steps.cargo_bump.outputs.new_version }}
-          commitish: ${{ steps.commit.outputs.commit_hash }}
+          tag: ${{ steps.cargo_bump.outputs.new_version }}
+          commit: ${{ steps.commit.outputs.commit_hash }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

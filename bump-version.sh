@@ -1,0 +1,1 @@
+sed --in-place '3c\version = "'$1'"' Cargo.toml

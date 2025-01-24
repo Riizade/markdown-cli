@@ -10,7 +10,7 @@ on:
         description: "Release type (major, minor, patch"
         type: "string"
         required: false
-        default: "minor"
+        default: "patch"
       prerelease:
         description: "Whether this release is considered a prerelease"
         type: "boolean"

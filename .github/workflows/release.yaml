@@ -2,10 +2,6 @@ name: Release
 on:
   workflow_dispatch:
     inputs:
-      repo_token:
-        description: "A personal access token with write permissions to the releases for this repo"
-        type: "string"
-        required: true
       release_type:
         description: "Release type (major, minor, patch"
         type: "string"
@@ -19,6 +15,10 @@ on:
 jobs:
   run:
     runs-on: ubuntu-latest
+    permissions:
+        # Give the default GITHUB_TOKEN write permission to commit and push the
+        # added or changed files to the repository.
+        contents: write
     steps:
       # checkout the repo
       - uses: actions/checkout@v4
@@ -58,4 +58,4 @@ jobs:
           tag_name: ${{ steps.cargo_bump.outputs.new_version }}
           commitish: ${{ steps.commit.outputs.commit_hash }}
         env:
-          GITHUB_TOKEN: ${{ inputs.repo_token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

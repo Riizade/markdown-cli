@@ -38,23 +38,14 @@ jobs:
           zip --junk-paths markdown-cli ./target/release/markdown-cli
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1
+        uses: ncipollo/release-action@v1
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ steps.cargo_bump.outputs.new_version }}
+          name: Release ${{ steps.cargo_bump.outputs.new_version }}
           draft: false
           body: |
             Release version ${{ steps.cargo_bump.outputs.new_version }}
           prerelease: ${{ inputs.prerelease }}
+          artifacts: markdown-cli.zip
+          artifactContentType: application/zip
         env:
           GITHUB_TOKEN: ${{ inputs.repo_token }}
-      - name: Upload Release Asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ inputs.repo_token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ./markdown-cli.zip
-          asset_name: markdown-cli.zip
-          asset_content_type: application/zip

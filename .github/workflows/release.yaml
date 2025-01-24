@@ -25,7 +25,7 @@ jobs:
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
-      - uses: actions/rust-bump-version@v1
+      - uses: stellar/actions/rust-bump-version@v1
         with:
           base: "main"
           version: ${{ inputs.version }}

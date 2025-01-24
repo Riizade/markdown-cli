@@ -6,10 +6,11 @@ on:
         description: "A personal access token with write permissions to the releases for this repo"
         type: "string"
         required: true
-      version:
-        description: "Version to bump to (e.g. 0.1.0)"
+      release_type:
+        description: "Release type (major, minor, patch"
         type: "string"
-        required: true
+        required: false
+        default: "minor"
       prerelease:
         description: "Whether this release is considered a prerelease"
         type: "boolean"
@@ -25,10 +26,11 @@ jobs:
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
-      - uses: stellar/actions/.github/workflows/rust-bump-version@main
+      - name: Cargo Bump
+        id: cargo_bump
+        uses: tj-actions/cargo-bump@v3
         with:
-          base: "main"
-          version: ${{ inputs.version }}
+          release_type: ${{ inputs.release_type }}
       - name: Build Release Binary
         run: cargo build --release
       - name: Zip Executable
@@ -40,8 +42,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ inputs.repo_token }}
         with:
-          tag_name: ${{ inputs.version }}
-          release_name: Release ${{ inputs.version }}
+          tag_name: ${{ steps.cargo_bump.outputs.new_version }}
+          release_name: Release ${{ steps.cargo_bump.outputs.new_version }}
           draft: false
           prerelease: ${{ inputs.prerelease }}
       - name: Upload Release Asset

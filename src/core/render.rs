@@ -14,7 +14,7 @@ pub fn render_to_html(markdown: String, css: Option<String>, allow_embedded_html
 
     head = format!("{head}</head>\n");
 
-    rendered_text = format!("{head}{rendered_text}");
+    rendered_text = format!("<html>{head}<body>{rendered_text}</body></html>");
 
     rendered_text
 }
